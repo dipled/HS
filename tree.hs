@@ -17,6 +17,23 @@ postorder :: Arvore a -> [a]
 postorder Nulo = []
 postorder (Nodo x l r) = (postorder l) ++ (postorder r) ++ [x]
 
+--
+--calculaAltura' :: (Ord a, Ord b, Num b) => Arvore (a,b) -> b -> b
+--calculaAltura' Nulo count = count
+--calculaAltura' (Nodo x l r) count = count + (max (calculaAltura' l 1) (calculaAltura' r 1))
+--
+--calculaAltura :: (Ord a,Ord b, Num b) => Arvore (a,b) -> b
+--calculaAltura (Nodo (v,h) l r) = calculaAltura' (Nodo (v,h) l r) h
+--
+--
+--insertElemAVL :: (Ord a, Ord b, Num b) => Arvore (a,b) -> a -> Arvore (a,b)
+--insertElemAVL Nulo e = (Nodo (e,0)) Nulo Nulo
+--insertElemAVL (Nodo (v,h) l r) e 
+--    |e > v = (Nodo (v,h) l (insertElemAVL r e))
+--    |e < v = (Nodo (v,h) (insertElemAVL l e) r)
+--    |otherwise = (Nodo (v,h) l r) 
+
+
 insertElem :: Ord a => Arvore a -> a -> Arvore a
 insertElem Nulo e = (Nodo e) Nulo Nulo
 insertElem (Nodo x l r) e
@@ -53,5 +70,4 @@ removeElem :: Ord a => Arvore a -> a -> Arvore a
 removeElem arv e = removeElem' arv e 1
 
 testTree = Nodo 5 (Nodo 4 (Nodo 3 Nulo (Nodo 2 Nulo Nulo) ) (Nulo)) (Nodo 6 Nulo (Nodo 9 (Nodo 7 Nulo Nulo) (Nodo 10 Nulo Nulo)))
-smaller = Nodo 99 Nulo Nulo
 
