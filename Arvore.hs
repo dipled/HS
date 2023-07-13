@@ -9,7 +9,10 @@ instance Functor Arv where
 
 instance Applicative Arv where
     pure x = Nodo x Nulo Nulo
+    Nulo <*> _ = Nulo
+    _ <*> Nulo = Nulo
 
+    (Nodo fa fl fr) <*> (Nodo x y z) = (Nodo (fa x) (fl <*> y) (fr <*> z))
 
 preorder :: Arv a -> [a]
 
@@ -31,7 +34,7 @@ postorder (Nodo x l r) = (postorder l) ++ (postorder r) ++ [x]
 --calculaAltura' Nulo count = count
 --calculaAltura' (Nodo x l r) count = count + (max (calculaAltura' l 1) (calculaAltura' r 1))
 --
---calculaAltura :: (Ord a,Ord b, Num b) => Arv (a,b) -> b
+    --calculaAltura :: (Ord a,Ord b, Num b) => Arv (a,b) -> b
 --calculaAltura (Nodo (v,h) l r) = calculaAltura' (Nodo (v,h) l r) h
 --
 --
@@ -78,5 +81,6 @@ removeElem' (Nodo x l r) e before
 removeElem :: Ord a => Arv a -> a -> Arv a
 removeElem arv e = removeElem' arv e 1
 
-testTree = Nodo 5 (Nodo 4 (Nodo 3 Nulo (Nodo 2 Nulo Nulo) ) (Nulo)) (Nodo 6 Nulo (Nodo 9 (Nodo 7 Nulo Nulo) (Nodo 10 Nulo Nulo)))
+tree1 = Nodo 5 (Nodo 4 (Nodo 3 Nulo (Nodo 2 Nulo Nulo) ) (Nulo)) (Nodo 6 Nulo (Nodo 9 (Nodo 7 Nulo Nulo) (Nodo 10 Nulo Nulo)))
+tree2 = Nodo 5 (Nodo 4 (Nodo 3 Nulo (Nodo 2 Nulo Nulo) ) (Nulo)) (Nodo 6 Nulo (Nodo 9 (Nodo 7 Nulo Nulo) (Nodo 10 Nulo Nulo)))
 
