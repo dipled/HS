@@ -18,24 +18,23 @@ instance Applicative BinTree where
     (Node fa fl fr) <*> (Node x y z) = Node (fa x) (fl <*> y) (fr <*> z)
 
 --instance Monad BinTree where
+--    
 --    Nil >>= f = Nil
---    (Node a l r) >>= f = (Node a l r)
---sumTree :: (Num a, Ord a) => BinTree a -> BinTree a -> BinTree a
---sumTree a1 a2 = (fmap (+) a1) <*> a2
+--    (Node a l r) >>= f = insertSubarvore (insertSubarvore (f a) (l >>= f)) (r >>= f)
+--
+sumTree :: (Num a, Ord a) => BinTree a -> BinTree a -> BinTree a
+sumTree a1 a2 = (fmap (+) a1) <*> a2
 
 
 preorder :: BinTree a -> [a]
-
 preorder Nil = []
 preorder (Node x l r) = x : preorder l ++ preorder r
 
 inorder :: BinTree a -> [a]
-
 inorder Nil = []
 inorder (Node x l r) = inorder l ++ [x] ++ inorder r
 
 postorder :: BinTree a -> [a]
-
 postorder Nil = []
 postorder (Node x l r) = postorder l ++ postorder r ++ [x]
 
@@ -64,7 +63,6 @@ insertElem (Node x l r) e
     |otherwise = Node x l r 
 
 insertSubarvore :: Ord a => BinTree a -> BinTree a -> BinTree a
-
 insertSubarvore Nil Nil  = Nil
 insertSubarvore Nil (Node x1 l1 r1)  = Node x1 l1 r1 
 insertSubarvore (Node x l r) Nil = Node x l r
@@ -94,4 +92,3 @@ removeElem arv e = removeElem' arv e 1
 tree1 = Node 5 (Node 4 (Node 3 Nil (Node 2 Nil Nil) ) Nil) (Node 6 Nil (Node 9 (Node 7 Nil Nil) (Node 10 Nil Nil)))
 tree2 = (+) 1 <$> tree1 --Sums one to every single element of tree
 tree3 = (+) <$> tree1 <*> tree2 -- very cool shit we're able to do cuz of Applicative
-
