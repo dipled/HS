@@ -1,8 +1,7 @@
 module Tree where
 
-data BinTree a = Nil | Node a (BinTree a) (BinTree a)
+data BinTree a = Nil | Node a (BinTree a) (BinTree a) 
     deriving (Show, Eq, Ord)
-
 instance Functor BinTree where
     fmap :: (a -> b) -> BinTree a -> BinTree b
     fmap f Nil = Nil
@@ -20,11 +19,10 @@ instance Applicative BinTree where
 --instance Monad BinTree where
 --    
 --    Nil >>= f = Nil
---    (Node a l r) >>= f = insertSubarvore (insertSubarvore (f a) (l >>= f)) (r >>= f)
+--    (Node a l r) >>= f = insertSubtree (insertSubtree (f a) (l >>= f)) (r >>= f)
 --
 sumTree :: (Num a, Ord a) => BinTree a -> BinTree a -> BinTree a
 sumTree a1 a2 = (fmap (+) a1) <*> a2
-
 
 preorder :: BinTree a -> [a]
 preorder Nil = []
@@ -62,14 +60,14 @@ insertElem (Node x l r) e
     |e < x = Node x (insertElem l e) r
     |otherwise = Node x l r 
 
-insertSubarvore :: Ord a => BinTree a -> BinTree a -> BinTree a
-insertSubarvore Nil Nil  = Nil
-insertSubarvore Nil (Node x1 l1 r1)  = Node x1 l1 r1 
-insertSubarvore (Node x l r) Nil = Node x l r
-insertSubarvore (Node x l r) (Node x1 l1 r1) 
-    |x == x1 = Node x (insertSubarvore l l1) (insertSubarvore r r1)
-    |x < x1 = Node x l (insertSubarvore r (Node x1 l1 r1))
-    |x > x1 = Node x (insertSubarvore l (Node x1 l1 r1)) r
+insertSubtree :: Ord a => BinTree a -> BinTree a -> BinTree a
+insertSubtree Nil Nil  = Nil
+insertSubtree Nil (Node x1 l1 r1)  = Node x1 l1 r1 
+insertSubtree (Node x l r) Nil = Node x l r
+insertSubtree (Node x l r) (Node x1 l1 r1) 
+    |x == x1 = Node x (insertSubtree l l1) (insertSubtree r r1)
+    |x < x1 = Node x l (insertSubtree r (Node x1 l1 r1))
+    |x > x1 = Node x (insertSubtree l (Node x1 l1 r1)) r
 
 removeSubBinTree :: Ord a => BinTree a -> a -> BinTree a
 removeSubBinTree Nil x = Nil
@@ -81,8 +79,8 @@ removeSubBinTree (Node x l r) e
 removeElem' :: Ord a => Eq b => Num b => BinTree a -> a -> b -> BinTree a
 removeElem' Nil x _= Nil
 removeElem' (Node x l r) e before
-    |e == x && before == 1 = insertSubarvore l r
-    |e == x && before == -1 = insertSubarvore r l
+    |e == x && before == 1 = insertSubtree l r
+    |e == x && before == -1 = insertSubtree r l
     |e > x = Node x l (removeElem' r e 1)
     |e < x = Node x (removeElem' l e (-1)) r
 
