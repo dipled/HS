@@ -36,10 +36,6 @@ postorder :: BinTree a -> [a]
 postorder Nil = []
 postorder (Node x l r) = postorder l ++ postorder r ++ [x]
 
-testM = 
-    do
-        insertElem tree1 8
-        removeElem tree1 2
 
 --
 --calculaAltura' :: (Ord a, Ord b, Num b) => BinTree (a,b) -> b -> b
