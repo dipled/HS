@@ -16,9 +16,8 @@ instance Applicative BinTree where
     _ <*> Nil = Nil
     (Node fa fl fr) <*> (Node x y z) = Node (fa x) (fl <*> y) (fr <*> z)
 
+-- **************************************************Basic**************************************************
 
-sumTree :: (Num a, Ord a) => BinTree a -> BinTree a -> BinTree a
-sumTree a1 a2 = (fmap (+) a1) <*> a2
 
 preorder :: BinTree a -> [a]
 preorder Nil = []
@@ -31,22 +30,6 @@ inorder (Node x l r) = inorder l ++ [x] ++ inorder r
 postorder :: BinTree a -> [a]
 postorder Nil = []
 postorder (Node x l r) = postorder l ++ postorder r ++ [x]
---
---calculaAltura' :: (Ord a, Ord b, Num b) => BinTree (a,b) -> b -> b
---calculaAltura' Nil count = count
---calculaAltura' (Node x l r) count = count + (max (calculaAltura' l 1) (calculaAltura' r 1))
---
---calculaAltura :: (Ord a,Ord b, Num b) => BinTree (a,b) -> b
---calculaAltura (Node (v,h) l r) = calculaAltura' (Node (v,h) l r) h
---
---
---insertElemAVL :: (Ord a, Ord b, Num b) => BinTree (a,b) -> a -> BinTree (a,b)
---insertElemAVL Nil e = (Node (e,0)) Nil Nil
---insertElemAVL (Node (v,h) l r) e 
---    |e > v = (Node (v,h) l (insertElemAVL r e))
---    |e < v = (Node (v,h) (insertElemAVL l e) r)
---    |otherwise = (Node (v,h) l r) 
-
 
 insertElem :: Ord a => BinTree a -> a -> BinTree a
 insertElem Nil e = Node e Nil Nil
@@ -82,10 +65,27 @@ removeElem' (Node x l r) e before
 removeElem :: Ord a => BinTree a -> a -> BinTree a
 removeElem arv e = removeElem' arv e 1
 
+-- **************************************************AVL**************************************************
+
+-- atualizaAltura :: Ord a => BinTree (a,Int) -> a -> BinTree (a,Int)
+-- atualizaAltura (Node (v,h) l r) e
+--     |e > v = Node (v,h+1) l (atualizaAltura r e) 
+--     |e < v = Node (v,h+1) (atualizaAltura l e) r
+--     |otherwise = Node (v,h) l r
+
+
+-- insertElemAVL :: Ord a => BinTree (a, Int) -> a -> BinTree (a, Int)
+-- insertElemAVL Nil e = Node (e,0) Nil Nil
+-- insertElemAVL (Node (v,h) l r) e
+--     |e > v = Node (v,h) l (insertElemAVL r e)
+--     |e < v = Node (v,h) (insertElemAVL l e) r
+--     |otherwise = Node (v,h) l r 
+
+
+
 tree1 = Node 5 (Node 4 (Node 3 (Node 2 Nil Nil) Nil) Nil) (Node 6 Nil (Node 9 (Node 7 Nil Nil) (Node 10 Nil Nil)))
 tree2 = (+) 1 <$> tree1 --Sums one to every single element of tree
 tree3 = (+) <$> tree1 <*> tree2 -- very cool shit we're able to do cuz of Applicative
-nilTree = Nil
 menu = "Digite 1 para adicionar um elemento\n2 para remover um elemento\n3 printar a arvore"
 
 insere t = 
@@ -124,3 +124,4 @@ main =
             "Float" -> partida (Nil :: BinTree Float)
             "Int" -> partida (Nil :: BinTree Int)
             "String" -> partida (Nil :: BinTree String)
+            
