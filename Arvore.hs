@@ -16,10 +16,6 @@ instance Applicative BinTree where
     _ <*> Nil = Nil
     (Node fa fl fr) <*> (Node x y z) = Node (fa x) (fl <*> y) (fr <*> z)
 
-instance Monad BinTree where
-   
-   Nil >>= f = Nil
-   (Node a l r) >>= f = f a
 
 sumTree :: (Num a, Ord a) => BinTree a -> BinTree a -> BinTree a
 sumTree a1 a2 = (fmap (+) a1) <*> a2
@@ -35,8 +31,6 @@ inorder (Node x l r) = inorder l ++ [x] ++ inorder r
 postorder :: BinTree a -> [a]
 postorder Nil = []
 postorder (Node x l r) = postorder l ++ postorder r ++ [x]
-
-
 --
 --calculaAltura' :: (Ord a, Ord b, Num b) => BinTree (a,b) -> b -> b
 --calculaAltura' Nil count = count
