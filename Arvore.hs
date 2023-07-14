@@ -1,7 +1,7 @@
 module Tree where
 
 data BinTree a = Nil | Node a (BinTree a) (BinTree a) 
-    deriving (Show, Eq, Ord)
+    deriving (Show, Eq, Ord, Read)
 instance Functor BinTree where
     fmap :: (a -> b) -> BinTree a -> BinTree b
     fmap f Nil = Nil
@@ -85,3 +85,36 @@ removeElem arv e = removeElem' arv e 1
 tree1 = Node 5 (Node 4 (Node 3 (Node 2 Nil Nil) Nil) Nil) (Node 6 Nil (Node 9 (Node 7 Nil Nil) (Node 10 Nil Nil)))
 tree2 = (+) 1 <$> tree1 --Sums one to every single element of tree
 tree3 = (+) <$> tree1 <*> tree2 -- very cool shit we're able to do cuz of Applicative
+
+menu = "Digite 1 para adicionar um elemento\n2 para remover um elemento\n3 printar a arvore"
+
+insere t = 
+    do
+        putStrLn "Digite o numero para adicionar"
+        r <- getLine
+        let result = read r
+        print result    
+        let newT = insertElem t result
+        start newT
+
+remove t = 
+    do
+        putStrLn "Digite o numero para remover"
+        r <- getLine
+        let result = read r
+        print result    
+        let newT = removeElem t result
+        start newT
+
+
+start t = 
+    do
+        putStrLn menu
+        r <- getLine
+        case (read r) of
+            1 -> insere t
+            2 -> remove t
+            3 -> do print (t); start t
+        
+
+         
