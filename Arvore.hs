@@ -85,7 +85,7 @@ removeElem arv e = removeElem' arv e 1
 tree1 = Node 5 (Node 4 (Node 3 (Node 2 Nil Nil) Nil) Nil) (Node 6 Nil (Node 9 (Node 7 Nil Nil) (Node 10 Nil Nil)))
 tree2 = (+) 1 <$> tree1 --Sums one to every single element of tree
 tree3 = (+) <$> tree1 <*> tree2 -- very cool shit we're able to do cuz of Applicative
-
+nilTree = Nil
 menu = "Digite 1 para adicionar um elemento\n2 para remover um elemento\n3 printar a arvore"
 
 insere t = 
@@ -94,7 +94,7 @@ insere t =
         r <- getLine
         let result = read r
         let newT = insertElem t result
-        start newT
+        partida newT
 
 remove t = 
     do
@@ -102,17 +102,25 @@ remove t =
         r <- getLine
         let result = read r
         let newT = removeElem t result
-        start newT
+        partida newT
 
-
-start t = 
+partida :: (Show a, Ord a, Read a) => BinTree a -> IO ()
+partida t = 
     do
+
         putStrLn menu
         r <- getLine
         case (read r) of
-            1 -> insere t
-            2 -> remove t
-            3 -> do print (t); start t
-        
+           1 -> insere t
+           2 -> remove t
+           3 -> do print t; partida t
 
-         
+main :: IO ()
+main =
+    do
+        putStrLn "Qual o tipo de arvore voce quer criar? (Int, Float, String)"
+        r <- getLine
+        case r of
+            "Float" -> partida (Nil :: BinTree Float)
+            "Int" -> partida (Nil :: BinTree Int)
+            "String" -> partida (Nil :: BinTree String)
