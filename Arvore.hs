@@ -93,7 +93,6 @@ insere t =
         putStrLn "Digite o numero para adicionar"
         r <- getLine
         let result = read r
-        print result    
         let newT = insertElem t result
         start newT
 
@@ -102,7 +101,6 @@ remove t =
         putStrLn "Digite o numero para remover"
         r <- getLine
         let result = read r
-        print result    
         let newT = removeElem t result
         start newT
 
