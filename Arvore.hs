@@ -67,19 +67,18 @@ removeElem arv e = removeElem' arv e 1
 
 -- **************************************************AVL**************************************************
 
--- atualizaAltura :: Ord a => BinTree (a,Int) -> a -> BinTree (a,Int)
--- atualizaAltura (Node (v,h) l r) e
---     |e > v = Node (v,h+1) l (atualizaAltura r e) 
---     |e < v = Node (v,h+1) (atualizaAltura l e) r
---     |otherwise = Node (v,h) l r
+atualizaAltura :: Ord a => BinTree (a,Int) -> a -> BinTree (a,Int)
+atualizaAltura (Node (v,h) l r) e
+    |e > v = Node (v,h+1) l (atualizaAltura r e) 
+    |e < v = Node (v,h+1) (atualizaAltura l e) r
+    |otherwise = Node (v,h) l r
 
 
--- insertElemAVL :: Ord a => BinTree (a, Int) -> a -> BinTree (a, Int)
--- insertElemAVL Nil e = Node (e,0) Nil Nil
--- insertElemAVL (Node (v,h) l r) e
---     |e > v = Node (v,h) l (insertElemAVL r e)
---     |e < v = Node (v,h) (insertElemAVL l e) r
---     |otherwise = Node (v,h) l r 
+insertElemAVL Nil e = Node (e,0) Nil Nil
+insertElemAVL (Node (v,h) l r) e
+    |e > v = Node (v,h) l (insertElemAVL r e)
+    |e < v = Node (v,h) (insertElemAVL l e) r
+    |otherwise = Node (v,h) l r 
 
 
 
@@ -87,6 +86,9 @@ tree1 = Node 5 (Node 4 (Node 3 (Node 2 Nil Nil) Nil) Nil) (Node 6 Nil (Node 9 (N
 tree2 = (+) 1 <$> tree1 --Sums one to every single element of tree
 tree3 = (+) <$> tree1 <*> tree2 -- very cool shit we're able to do cuz of Applicative
 menu = "Digite 1 para adicionar um elemento\n2 para remover um elemento\n3 printar a arvore"
+
+
+
 
 insere t = 
     do
@@ -110,7 +112,7 @@ partida t =
 
         putStrLn menu
         r <- getLine
-        case (read r) of
+        case read r of
            1 -> insere t
            2 -> remove t
            3 -> do print t; partida t
@@ -118,10 +120,15 @@ partida t =
 main :: IO ()
 main =
     do
-        putStrLn "Qual o tipo de arvore voce quer criar? (Int, Float, String)"
+        putStrLn "Qual o tipo de arvore voce quer criar? (Normal / AVL)"
+        av <- getLine
+        putStrLn "Qual o tipo de dado voce quer criar? (Int, Float, String)"
         r <- getLine
-        case r of
-            "Float" -> partida (Nil :: BinTree Float)
-            "Int" -> partida (Nil :: BinTree Int)
-            "String" -> partida (Nil :: BinTree String)
+        case (av, r) of
+            ("Normal","Float") -> partida (Nil :: BinTree Float)
+            ("Normal","Int") -> partida (Nil :: BinTree Int)
+            ("Normal","String") -> partida (Nil :: BinTree String)
+            ("AVL","Float") -> partida (Nil :: BinTree (Float, Int))
+            ("AVL","Int") -> partida (Nil :: BinTree (Int, Int))
+            ("AVL","String") -> partida (Nil :: BinTree (Int, String))
             
