@@ -67,29 +67,57 @@ removeElem arv e = removeElem' arv e 1
 
 -- **************************************************AVL**************************************************
 
-atualizaAltura :: Ord a => BinTree (a,Int) -> a -> BinTree (a,Int)
-atualizaAltura (Node (v,h) l r) e
-    |e > v = Node (v,h+1) l (atualizaAltura r e) 
-    |e < v = Node (v,h+1) (atualizaAltura l e) r
-    |otherwise = Node (v,h) l r
+
+calculaAltura :: Ord a => BinTree (a,Integer) -> Integer -> Integer
+calculaAltura Nil count = count -1
+calculaAltura (Node (v,h) l r) count = max (calculaAltura l (count + 1)) (calculaAltura r (count + 1)) 
 
 
+aplicaAltura :: Ord a => BinTree (a,Integer) -> BinTree (a,Integer)
+aplicaAltura Nil = Nil
+aplicaAltura (Node (v,h) l r) = (Node (v,calculaAltura (Node (v,h) l r) 0)) (aplicaAltura l) (aplicaAltura r)
+
+
+insertElemAVL:: Ord a => BinTree (a,Integer) -> a -> BinTree (a,Integer)
 insertElemAVL Nil e = Node (e,0) Nil Nil
 insertElemAVL (Node (v,h) l r) e
     |e > v = Node (v,h) l (insertElemAVL r e)
     |e < v = Node (v,h) (insertElemAVL l e) r
     |otherwise = Node (v,h) l r 
 
+removeElemAVL' Nil x _= Nil
+removeElemAVL' (Node (x,h) l r) e before
+    |e == x && before == 1 = insertSubtree l r
+    |e == x && before == -1 = Nil
+    |e > x = Node (x,h) l (removeElemAVL' r e 1)
+    |e < x = Node (x,h) (removeElemAVL' l e (-1)) r
+
+removeElemAVL arv e = removeElemAVL' arv e 1
 
 
 tree1 = Node 5 (Node 4 (Node 3 (Node 2 Nil Nil) Nil) Nil) (Node 6 Nil (Node 9 (Node 7 Nil Nil) (Node 10 Nil Nil)))
 tree2 = (+) 1 <$> tree1 --Sums one to every single element of tree
 tree3 = (+) <$> tree1 <*> tree2 -- very cool shit we're able to do cuz of Applicative
+
+tree4 = Node (5,0   ) Nil Nil
 menu = "Digite 1 para adicionar um elemento\n2 para remover um elemento\n3 printar a arvore"
 
+insereAVL t =
+    do
+        putStrLn "Digite o numero para adicionar"
+        r <- getLine
+        let result = read r
+        let newT = aplicaAltura (insertElemAVL t result)
+        
+        partidaAVL newT
+removeAVL t = 
+    do
 
-
-
+        putStrLn "Digite o numero para remover"
+        r <- getLine
+        let result = read r
+        let newT = aplicaAltura(removeElemAVL t result)
+        partidaAVL newT
 insere t = 
     do
         putStrLn "Digite o numero para adicionar"
@@ -112,10 +140,22 @@ partida t =
 
         putStrLn menu
         r <- getLine
-        case read r of
+        case (read r) of
            1 -> insere t
            2 -> remove t
            3 -> do print t; partida t
+
+partidaAVL :: (Show a, Ord a, Read a) => BinTree (a,Integer) -> IO ()
+partidaAVL t = 
+    do
+
+        putStrLn menu
+        r <- getLine
+        case (read r) of
+           1 -> insereAVL t
+           2 -> removeAVL t
+           3 -> do print t; partidaAVL t
+
 
 main :: IO ()
 main =
@@ -126,9 +166,9 @@ main =
         r <- getLine
         case (av, r) of
             ("Normal","Float") -> partida (Nil :: BinTree Float)
-            ("Normal","Int") -> partida (Nil :: BinTree Int)
+            ("Normal","Int") -> partida (Nil :: BinTree Integer)
             ("Normal","String") -> partida (Nil :: BinTree String)
-            ("AVL","Float") -> partida (Nil :: BinTree (Float, Int))
-            ("AVL","Int") -> partida (Nil :: BinTree (Int, Int))
-            ("AVL","String") -> partida (Nil :: BinTree (Int, String))
+            ("AVL","Float") -> partidaAVL (Nil :: BinTree (Float, Integer))
+            ("AVL","Int") -> partidaAVL (Nil :: BinTree (Integer, Integer))
+            ("AVL","String") -> partidaAVL (Nil :: BinTree (String, Integer))
             
