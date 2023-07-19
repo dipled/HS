@@ -73,6 +73,12 @@ calculaAltura Nil count = count -1
 calculaAltura (Node (v,h) l r) count = max (calculaAltura l (count + 1)) (calculaAltura r (count + 1)) 
 
 
+-- rotRR (Node (v,h) l (Node (v1,h1) l1 r1)) = (Node (v1,h1) (Node (v,h) l l1) r1)
+-- rotRL (Node (v,h) l (Node (v1,h1) (Node (v2,h2) l2 r2) r1)) = (Node (v2,h2) (Node (v,h) l l2) (Node (v1,h1) r2 r1))
+-- rotLR (Node (v,h) (Node (v1, h1) l1 (Node(v2,h2) l2 r2)) r) = (Node (v2,h2) (Node (v1,h1) l1 l2) (Node (v,h) r2 r))
+-- rotLL (Node (v,h) (Node (v1,h1) l1 r1) r) = (Node (v1,h1) l1 (Node (v,h) r1 r))
+
+
 aplicaAltura :: Ord a => BinTree (a,Integer) -> BinTree (a,Integer)
 aplicaAltura Nil = Nil
 aplicaAltura (Node (v,h) l r) = (Node (v,calculaAltura (Node (v,h) l r) 0)) (aplicaAltura l) (aplicaAltura r)
