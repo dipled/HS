@@ -73,10 +73,10 @@ calculaAltura Nil count = count -1
 calculaAltura (Node (v,h) l r) count = max (calculaAltura l (count + 1)) (calculaAltura r (count + 1)) 
 
 
--- rotRR (Node (v,h) l (Node (v1,h1) l1 r1)) = (Node (v1,h1) (Node (v,h) l l1) r1)
--- rotRL (Node (v,h) l (Node (v1,h1) (Node (v2,h2) l2 r2) r1)) = (Node (v2,h2) (Node (v,h) l l2) (Node (v1,h1) r2 r1))
--- rotLR (Node (v,h) (Node (v1, h1) l1 (Node(v2,h2) l2 r2)) r) = (Node (v2,h2) (Node (v1,h1) l1 l2) (Node (v,h) r2 r))
--- rotLL (Node (v,h) (Node (v1,h1) l1 r1) r) = (Node (v1,h1) l1 (Node (v,h) r1 r))
+rotRR (Node (v,h) l (Node (v1,h1) l1 r1)) = (Node (v1,h1) (Node (v,h) l l1) r1)
+rotRL (Node (v,h) l (Node (v1,h1) (Node (v2,h2) l2 r2) r1)) = (Node (v2,h2) (Node (v,h) l l2) (Node (v1,h1) r2 r1))
+rotLR (Node (v,h) (Node (v1, h1) l1 (Node(v2,h2) l2 r2)) r) = (Node (v2,h2) (Node (v1,h1) l1 l2) (Node (v,h) r2 r))
+rotLL (Node (v,h) (Node (v1,h1) l1 r1) r) = (Node (v1,h1) l1 (Node (v,h) r1 r))
 
 
 aplicaAltura :: Ord a => BinTree (a,Integer) -> BinTree (a,Integer)
@@ -105,7 +105,7 @@ tree1 = Node 5 (Node 4 (Node 3 (Node 2 Nil Nil) Nil) Nil) (Node 6 Nil (Node 9 (N
 tree2 = (+) 1 <$> tree1 --Sums one to every single element of tree
 tree3 = (+) <$> tree1 <*> tree2 -- very cool shit we're able to do cuz of Applicative
 
-tree4 = Node (5,0   ) Nil Nil
+tree4 = Node (5,0) Nil Nil
 menu = "Digite 1 para adicionar um elemento\n2 para remover um elemento\n3 printar a arvore"
 
 insereAVL t =
