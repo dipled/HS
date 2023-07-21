@@ -18,14 +18,14 @@ void* mg(void *vet, int s, int mid, int e, size_t typesize, int (*comparefn)(con
     /* Constructing the aux arrays. */
     for (int x = 0; x < len1; x++)
     {
-        ret = memcpy(arr1 + x * typesize, arr + (s + x) * typesize, typesize);
+        ret = memcpy((void*)(arr1 + x * typesize), (void*)(arr + (s + x) * typesize), typesize);
         if (ret == NULL)
             return NULL;
 
     }
     for (int x = 0; x < len2; x++)
     {
-        ret = memcpy(arr2 + x * typesize, arr + (mid + 1 + x) * typesize, typesize);
+        ret = memcpy((void*)(arr2 + x * typesize), (void*)(arr + (mid + 1 + x) * typesize), typesize);
         if (ret == NULL)
             return NULL;
     }
@@ -44,14 +44,14 @@ void* mg(void *vet, int s, int mid, int e, size_t typesize, int (*comparefn)(con
         elem2 = (void *)(arr2 + j * typesize);
         if (comparefn(elem1, elem2))
         {
-            ret = memcpy(arr + k * typesize, arr1 + i * typesize, typesize);
+            ret = memcpy((void*)(arr + k * typesize), arr1 + i * typesize, typesize);
             if (ret == NULL)
                 return NULL;
             ++i;
         }
         else
         {
-            ret = memcpy(arr + k * typesize, arr2 + j * typesize, typesize);
+            ret = memcpy((void*)(arr + k * typesize), arr2 + j * typesize, typesize);
             if (ret == NULL)
                 return NULL;
             ++j;
@@ -60,7 +60,7 @@ void* mg(void *vet, int s, int mid, int e, size_t typesize, int (*comparefn)(con
     }
     while (i < len1)
     {
-        ret = memcpy(arr + k * typesize, arr1 + i * typesize, typesize);
+        ret = memcpy(arr + k * typesize, (void*)(arr1 + i * typesize), typesize);
         if (ret == NULL)
             return NULL;
         ++i;
@@ -68,7 +68,7 @@ void* mg(void *vet, int s, int mid, int e, size_t typesize, int (*comparefn)(con
     }
     while (j < len2)
     {
-        ret = memcpy(arr + k * typesize, arr2 + j * typesize, typesize);
+        ret = memcpy(arr + k * typesize, (void*)(arr2 + j * typesize), typesize);
         if (ret == NULL)
             return NULL;
         ++j;
