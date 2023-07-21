@@ -11,6 +11,8 @@ void mg(void *vet, int s, int mid, int e, size_t typeSize, int (*compare)(const 
     // The use of char* fits nicely because char is one byte long, so if we're working, for example, with int values.
     // We know we must increment the array by 4 bytes to get to the next position.
     // That's why we use char*, so that arr += 4 increments the address in four bytes.
+    // OBS: We could probably use our void* to perform these operations, but it isn't complient with C Standard,
+    // the Standard is to use char* to perform these operations.
     char *arr = (char *)vet;
     char arr1[len1 * typeSize];
     char arr2[len2 * typeSize];
