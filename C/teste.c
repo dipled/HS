@@ -11,8 +11,12 @@ int intCmp(const void *a, const void *b)
 int main()
 {
     int vet[] = {3, 1, 2};
-
-    mergesort(vet, 3, sizeof(int), intCmp);
+    void* ret = NULL;
+    
+    ret = mergesort(vet, 3, sizeof(int), intCmp);
+    if (ret == NULL)
+        return -1;
+    
     for (int i = 0; i < 3; ++i)
         printf("%d ", vet[i]);
 
