@@ -12,14 +12,19 @@ int intCmp(const void *a, const void *b)
 
 int main()
 {
-    int vet[] = {3, 1, 2};
+    int nelem = 6;
+    int vet[] = {3, 1, 2,42342,-123,231541};
     void* ret = NULL;
 
-    ret = mergesort(vet, 3, sizeof(int), intCmp);
+    // ret = mergesort(vet, nelem, sizeof(int), intCmp);
+    // if (ret == NULL)
+    //     return -1;
+    
+    ret = quicksort(vet, nelem, sizeof(int), intCmp);
     if (ret == NULL)
         return -1;
-    
-    for (int i = 0; i < 3; ++i)
+
+    for (int i = 0; i < nelem; ++i)
         printf("%d ", vet[i]);
     return 0;
 }

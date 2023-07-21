@@ -2,8 +2,11 @@
 
 void *quicksort(void *base, size_t nelem, size_t typesize, int (*comparefn)(const void*, const void*))
 {
-    if (base == NULL || nelem <= 1 || typesize <= 0)
+    if (base == NULL || nelem <= 0 || typesize <= 0)
         return NULL;
+    if (nelem == 1)
+        return base;
+
 
     char *mem = (char*) base;
     int lsc = 0,  eqc = 0, gtc = 0;
@@ -95,6 +98,15 @@ void *quicksort(void *base, size_t nelem, size_t typesize, int (*comparefn)(cons
         memcpy((void*) (mem + count*typesize), (void*) (gt + i*typesize), typesize);
         count++;
     }
+    if (ls != NULL)
+        free(ls);
+
+    if (gt != NULL)
+        free(gt);
+    
+    if (eq != NULL)
+        free(eq);
+
     return base;
 }
 
