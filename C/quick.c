@@ -23,7 +23,7 @@ void *quicksort(void *base, size_t nelem, size_t typesize, int (*comparefn)(cons
     if (ls == NULL || eq == NULL || gt == NULL)
         return NULL;
 
-    for (int i = 0; i < nelem; ++i)
+    for (size_t i = 0; i < nelem; ++i)
     {
         void* elem = (void*) (mem + i*typesize);
         int relation = comparefn(elem, pivot);
@@ -42,12 +42,12 @@ void *quicksort(void *base, size_t nelem, size_t typesize, int (*comparefn)(cons
         }
         else if (relation == 2)
         {
-            ret = memcpy((void*) eq + eqc*typesize, elem, typesize);
+            ret = memcpy((void*) (eq + eqc*typesize), elem, typesize);
             if (ret == NULL)
                 return NULL;
             eqc++;
 
-            ret = realloc((void*)eq, (eqc+1)*typesize);
+            ret = realloc((void*)eq, (eqc+1)*typesize); 
             if (ret == NULL)
                 return NULL;
         }
