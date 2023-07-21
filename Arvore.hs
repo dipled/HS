@@ -2,6 +2,8 @@ module Tree where
 
 data BinTree a = Nil | Node a (BinTree a) (BinTree a) 
     deriving (Show, Eq, Ord, Read)
+
+    
 instance Functor BinTree where
     fmap :: (a -> b) -> BinTree a -> BinTree b
     fmap f Nil = Nil

@@ -1,16 +1,8 @@
 #include <stdlib.h>
 #include <memory.h>
 
-int cmp(const void *a, const void *b)
-{
-    // int compare function
-    // For this generic mergesort algorithm, we must implement a function that returns 1 or 0
-    // I didn't figure out how to use the "real" cmp function, i.e, the one that returns void*
-    if (*(int *)a <= *(int *)b)
-        return 1;
-    return 0;
-}
-void mg(void *vet, int s, int mid, int e, size_t typeSize)
+
+void mg(void *vet, int s, int mid, int e, size_t typeSize, int (*compare)(const void*, const void*))
 {
     int len1 = mid - s + 1;
     int len2 = e - mid;
@@ -40,12 +32,12 @@ void mg(void *vet, int s, int mid, int e, size_t typeSize)
 
     while (i < len1 && j < len2)
     {
-        // We use these void ptrs to make use of our cmp function
+        // We use these void ptrs to make use of our compare function
         void *elem1;
         void *elem2;
         elem1 = (void *)(arr1 + i * typeSize);
         elem2 = (void *)(arr2 + j * typeSize);
-        if (cmp(elem1, elem2))
+        if (compare(elem1, elem2))
         {
             memcpy(arr + k * typeSize, arr1 + i * typeSize, typeSize);
             ++i;
@@ -69,9 +61,10 @@ void mg(void *vet, int s, int mid, int e, size_t typeSize)
         ++j;
         ++k;
     }
-
 }
-void ms(void *vet, int s, int e, size_t typeSize)
+
+void ms(void *vet, int s, int e, size_t typeSize,int (*compare)(const void*, const void*))
+
 {
     if (s >= e)
     {
@@ -80,14 +73,27 @@ void ms(void *vet, int s, int e, size_t typeSize)
 
     int mid = (s + e) / 2;
 
-    ms(vet, s, mid, typeSize);
-    ms(vet, mid + 1, e, typeSize);
-    mg(vet, s, mid, e, typeSize);
+    ms(vet, s, mid, typeSize,compare);
+    ms(vet, mid + 1, e, typeSize,compare);
+    mg(vet, s, mid, e, typeSize, compare);
+}
+
+int cmp(const void *a, const void *b)
+{
+    // int compare function
+    // For this generic mergesort algorithm, we must implement a function that returns 1 or 0
+    // I didn't figure out how to use the "real" cmp function, i.e, the one that returns void*
+    if (*(int *)a <= *(int *)b)
+        return 1;
+    return 0;
 }
 
 int main()
 {
     int vet[] = {34234, 1, 0, 9, 7, 4, 6, 6, 6};
-    ms(vet, 0, 8, sizeof(int));
+
+    int x;
+    int y;
+    ms(vet, 0, 8, sizeof(int), cmp);
     return 0;
 }
