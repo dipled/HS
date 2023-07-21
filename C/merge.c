@@ -1,9 +1,5 @@
 #include "genericsorts.h"
 
-#include <memory.h>
-
-
-
 void* mg(void *vet, int s, int mid, int e, size_t typesize, int (*comparefn)(const void*, const void*))
 {
     int len1 = mid - s + 1;
@@ -110,7 +106,7 @@ void* ms(void *vet, int s, int e, size_t typesize,int (*comparefn)(const void*, 
 
 void* mergesort(void *base, size_t nelem, size_t typesize, int (*comparefn)(const void*, const void*))
 {
-    if (base == NULL || nelem == 0 || typesize == 0)
+    if (base == NULL || nelem <= 0 || typesize <= 0)
         return NULL;
     
     void* ret = NULL;
