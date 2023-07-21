@@ -4,7 +4,7 @@
 
 
 
-void mg(void *vet, int s, int mid, int e, size_t typesize, int (*comparefn)(const void*, const void*))
+void* mg(void *vet, int s, int mid, int e, size_t typesize, int (*comparefn)(const void*, const void*))
 {
     int len1 = mid - s + 1;
     int len2 = e - mid;
@@ -18,14 +18,20 @@ void mg(void *vet, int s, int mid, int e, size_t typesize, int (*comparefn)(cons
     char *arr = (char *)vet;
     char arr1[len1 * typesize];
     char arr2[len2 * typesize];
+    void *ret = NULL;
     /* Constructing the aux arrays. */
     for (int x = 0; x < len1; x++)
     {
-        memcpy(arr1 + x * typesize, arr + (s + x) * typesize, typesize);
+        ret = memcpy(arr1 + x * typesize, arr + (s + x) * typesize, typesize);
+        if (ret == NULL)
+            return NULL;
+
     }
     for (int x = 0; x < len2; x++)
     {
-        memcpy(arr2 + x * typesize, arr + (mid + 1 + x) * typesize, typesize);
+        ret = memcpy(arr2 + x * typesize, arr + (mid + 1 + x) * typesize, typesize);
+        if (ret == NULL)
+            return NULL;
     }
 
     int i, j, k;
@@ -42,47 +48,77 @@ void mg(void *vet, int s, int mid, int e, size_t typesize, int (*comparefn)(cons
         elem2 = (void *)(arr2 + j * typesize);
         if (comparefn(elem1, elem2))
         {
-            memcpy(arr + k * typesize, arr1 + i * typesize, typesize);
+            ret = memcpy(arr + k * typesize, arr1 + i * typesize, typesize);
+            if (ret == NULL)
+                return NULL;
             ++i;
         }
         else
         {
-            memcpy(arr + k * typesize, arr2 + j * typesize, typesize);
+            ret = memcpy(arr + k * typesize, arr2 + j * typesize, typesize);
+            if (ret == NULL)
+                return NULL;
             ++j;
         }
         ++k;
     }
     while (i < len1)
     {
-        memcpy(arr + k * typesize, arr1 + i * typesize, typesize);
+        ret = memcpy(arr + k * typesize, arr1 + i * typesize, typesize);
+        if (ret == NULL)
+            return NULL;
         ++i;
         ++k;
     }
     while (j < len2)
     {
-        memcpy(arr + k * typesize, arr2 + j * typesize, typesize);
+        ret = memcpy(arr + k * typesize, arr2 + j * typesize, typesize);
+        if (ret == NULL)
+            return NULL;
         ++j;
         ++k;
     }
+    return vet;
 }
 
 
 
-void ms(void *vet, int s, int e, size_t typesize,int (*comparefn)(const void*, const void*))
-
+void* ms(void *vet, int s, int e, size_t typesize,int (*comparefn)(const void*, const void*))
 {
     if (s >= e)
     {
-        return;
+        return vet;
     }
 
     int mid = (s + e) / 2;
-    ms(vet, s, mid, typesize,comparefn);
-    ms(vet, mid + 1, e, typesize,comparefn);
-    mg(vet, s, mid, e, typesize, comparefn);
+    void* ret = NULL;
+
+    ret = ms(vet, s, mid, typesize,comparefn);
+    if (ret == NULL)
+        return NULL;
+
+    ret = ms(vet, mid + 1, e, typesize,comparefn);
+    if (ret == NULL)
+        return NULL;
+
+    ret = mg(vet, s, mid, e, typesize, comparefn);
+    if (ret == NULL)
+        return NULL;
+
+    return vet;
 }
 
-void mergesort(void *base, size_t nelem, size_t typesize, int (*comparefn)(const void*, const void*))
+void* mergesort(void *base, size_t nelem, size_t typesize, int (*comparefn)(const void*, const void*))
 {
-    ms(base, 0, nelem - 1, typesize, comparefn);
+    if (base == NULL || nelem == 0 || typesize == 0)
+        return NULL;
+    
+    void* ret = NULL;
+    
+    ret = ms(base, 0, nelem - 1, typesize, comparefn);
+    if (ret == NULL)
+        return NULL;
+
+    return base;
+
 }
