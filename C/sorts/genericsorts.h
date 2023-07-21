@@ -3,6 +3,7 @@
 
 #include <stdlib.h>
 #include <memory.h>
+#include <assert.h>
 /* These implementations require that all of the compare functions passed return 1 if the first element is
    less than the second, 2 if they're equal or 0 if the first element is greater than the second*/
 
