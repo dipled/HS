@@ -1,5 +1,5 @@
 #include "genericsorts.h"
-
+#include <stdio.h>
 void *quicksort(void *base, size_t nelem, size_t typesize, int (*comparefn)(const void *, const void *))
 {
     if (base == NULL || nelem <= 0 || typesize <= 0)
@@ -10,20 +10,24 @@ void *quicksort(void *base, size_t nelem, size_t typesize, int (*comparefn)(cons
     char *mem = (char *)base;
     int lsc = 0, eqc = 0, gtc = 0;
 
-    char *ls = (char *)malloc(typesize);
-    char *eq = (char *)malloc(typesize);
-    char *gt = (char *)malloc(typesize);
-
+    char * ls = NULL;
+    char * gt = NULL;
+    char * eq = NULL;
+    ls = (char *)malloc(typesize);
+    eq = (char *)malloc(typesize);
+    gt = (char *)malloc(typesize);
+    void* elem;
     /* We'll be choosing the first element for our pivot just because it makes things easier, but
        it'd be better to choose a random pivot in our array */
-    void *pivot = (void *)mem;
+    void* pivot;
+    pivot = base;
 
     if (ls == NULL || eq == NULL || gt == NULL)
         return NULL;
 
-    for (size_t i = 0; i < nelem; ++i)
+    for (size_t i = 0; i < nelem; i++)
     {
-        void *elem = (void *)(mem + i * typesize);
+        elem = (void*)(mem + i * typesize);
         int relation = comparefn(elem, pivot);
 
         if (relation == 1)
@@ -31,33 +35,30 @@ void *quicksort(void *base, size_t nelem, size_t typesize, int (*comparefn)(cons
             assert(memcpy((void *)(ls + lsc * typesize), elem, typesize));
 
             lsc++;
-
-            assert(realloc((void *)ls, (lsc + 1) * typesize));
+            ls = (char*)realloc((void *)ls, (lsc + 1) * typesize);
+            assert(ls);
         }
         else if (relation == 2)
         {
             assert(memcpy((void *)(eq + eqc * typesize), elem, typesize));
 
             eqc++;
-
-            assert(realloc((void *)eq, (eqc + 1) * typesize));
+            eq = (char*) realloc((void *)eq, (eqc+1) * typesize);
+            assert(eq);
         }
-        else
+        else 
         {
             assert(memcpy((void *)(gt + gtc * typesize), elem, typesize));
 
             gtc++;
 
-            assert(realloc((void *)gt, (gtc + 1) * typesize));
+            gt = (char*)realloc((void *)gt, (gtc +1) * typesize);
+            assert(gt);
         }
     }
     if (lsc > 0)
     {
         assert(quicksort((void *)ls, lsc, typesize, comparefn));
-    }
-    if (eqc > 0)
-    {
-        assert(quicksort((void *)eq, eqc, typesize, comparefn));
     }
     if (gtc > 0)
     {
@@ -80,14 +81,15 @@ void *quicksort(void *base, size_t nelem, size_t typesize, int (*comparefn)(cons
         assert(memcpy((void *)(mem + count * typesize), (void *)(gt + i * typesize), typesize));
         count++;
     }
-    if (ls != NULL)
-        free(ls);
 
     if (gt != NULL)
         free(gt);
+    if (ls != NULL)
+        free(ls);
 
     if (eq != NULL)
         free(eq);
+        
 
     return base;
 }

@@ -1,6 +1,6 @@
 #include "genericsorts.h"
 
-void *mg(void *vet, int s, int mid, int e, size_t typesize, int (*comparefn)(const void *, const void *))
+static void *mg(void *vet, int s, int mid, int e, size_t typesize, int (*comparefn)(const void *, const void *))
 {
     int len1 = mid - s + 1;
     int len2 = e - mid;
@@ -66,7 +66,7 @@ void *mg(void *vet, int s, int mid, int e, size_t typesize, int (*comparefn)(con
     return vet;
 }
 
-void *ms(void *vet, int s, int e, size_t typesize, int (*comparefn)(const void *, const void *))
+static void *ms(void *vet, int s, int e, size_t typesize, int (*comparefn)(const void *, const void *))
 {
     if (s >= e)
     {
