@@ -19,7 +19,7 @@ int main(void)
     assert(vet2);
     for (int i = 0; i < nelem; ++i)
     {
-        vet[i] = rand();
+        vet[i] = rand()%200;
     }
     memcpy((void *)vet2, (void *)vet, sizeof(int) * nelem);
     {
