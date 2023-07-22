@@ -12,8 +12,10 @@ static void *mg(void *vet, int s, int mid, int e, size_t typesize, int (*compare
        OBS: We could probably use our void* to perform these operations, but it isn't complient with C Standard,
        the Standard is to use char* to perform these operations. */
     char *arr = (char *)vet;
-    char arr1[len1 * typesize];
-    char arr2[len2 * typesize];
+    char *arr1 = (char*)malloc(len1 * typesize);
+    char *arr2 = (char*)malloc(len2*typesize);
+    assert(arr1);
+    assert(arr2);
     /* Constructing the aux arrays. */
     for (int x = 0; x < len1; x++)
     {
@@ -63,6 +65,11 @@ static void *mg(void *vet, int s, int mid, int e, size_t typesize, int (*compare
         ++j;
         ++k;
     }
+    if(arr1 != NULL)
+        free(arr1);
+    if(arr2 != NULL)
+        free(arr2);
+        
     return vet;
 }
 

@@ -12,7 +12,7 @@ int intCmp(const void *a, const void *b)
 
 int main(void)
 {
-    size_t nelem = 999999;
+    size_t nelem = 9999999;
     int *vet = (int *)malloc(nelem * sizeof(int));
     int *vet2 = (int *)malloc(sizeof(int) * nelem);
     assert(vet);
