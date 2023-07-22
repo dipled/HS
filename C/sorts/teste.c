@@ -17,11 +17,11 @@ int main(void)
     int *vet2 = (int *)malloc(sizeof(int) * nelem);
     assert(vet);
     assert(vet2);
-    for(int i = 0; i < nelem; ++i)
+    for (int i = 0; i < nelem; ++i)
     {
         vet[i] = rand();
     }
-    memcpy((void*)vet2, (void*)vet, sizeof(int)*nelem);
+    memcpy((void *)vet2, (void *)vet, sizeof(int) * nelem);
     {
         assert(mergesort((void *)vet, nelem, sizeof(int), intCmp));
         printf("Merge-Sort: ");

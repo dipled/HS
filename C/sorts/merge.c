@@ -12,8 +12,8 @@ static void *mg(void *vet, int s, int mid, int e, size_t typesize, int (*compare
        OBS: We could probably use our void* to perform these operations, but it isn't complient with C Standard,
        the Standard is to use char* to perform these operations. */
     char *arr = (char *)vet;
-    char *arr1 = (char*)malloc(len1 * typesize);
-    char *arr2 = (char*)malloc(len2*typesize);
+    char *arr1 = (char *)malloc(len1 * typesize);
+    char *arr2 = (char *)malloc(len2 * typesize);
     assert(arr1);
     assert(arr2);
     /* Constructing the aux arrays. */
@@ -65,11 +65,11 @@ static void *mg(void *vet, int s, int mid, int e, size_t typesize, int (*compare
         ++j;
         ++k;
     }
-    if(arr1 != NULL)
+    if (arr1 != NULL)
         free(arr1);
-    if(arr2 != NULL)
+    if (arr2 != NULL)
         free(arr2);
-        
+
     return vet;
 }
 
@@ -82,10 +82,9 @@ static void *ms(void *vet, int s, int e, size_t typesize, int (*comparefn)(const
 
     int mid = (s + e) / 2;
 
-     assert(ms(vet, s, mid, typesize, comparefn));
-     assert(ms(vet, mid + 1, e, typesize, comparefn));
-     assert(mg(vet, s, mid, e, typesize, comparefn));
-
+    assert(ms(vet, s, mid, typesize, comparefn));
+    assert(ms(vet, mid + 1, e, typesize, comparefn));
+    assert(mg(vet, s, mid, e, typesize, comparefn));
 
     return vet;
 }
@@ -94,7 +93,6 @@ void *mergesort(void *base, size_t nelem, size_t typesize, int (*comparefn)(cons
 {
     if (base == NULL || nelem <= 0 || typesize <= 0)
         return NULL;
-
 
     assert(ms(base, 0, nelem - 1, typesize, comparefn));
 

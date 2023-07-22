@@ -10,16 +10,16 @@ void *quicksort(void *base, size_t nelem, size_t typesize, int (*comparefn)(cons
     char *mem = (char *)base;
     int lsc = 0, eqc = 0, gtc = 0;
 
-    char * ls = NULL;
-    char * gt = NULL;
-    char * eq = NULL;
+    char *ls = NULL;
+    char *gt = NULL;
+    char *eq = NULL;
     ls = (char *)malloc(typesize);
     eq = (char *)malloc(typesize);
     gt = (char *)malloc(typesize);
-    void* elem;
+    void *elem;
     /* We'll be choosing the first element for our pivot just because it makes things easier, but
        it'd be better to choose a random pivot in our array */
-    void* pivot;
+    void *pivot;
     pivot = base;
 
     if (ls == NULL || eq == NULL || gt == NULL)
@@ -27,7 +27,7 @@ void *quicksort(void *base, size_t nelem, size_t typesize, int (*comparefn)(cons
 
     for (size_t i = 0; i < nelem; i++)
     {
-        elem = (void*)(mem + i * typesize);
+        elem = (void *)(mem + i * typesize);
         int relation = comparefn(elem, pivot);
 
         if (relation == 1)
@@ -35,7 +35,7 @@ void *quicksort(void *base, size_t nelem, size_t typesize, int (*comparefn)(cons
             assert(memcpy((void *)(ls + lsc * typesize), elem, typesize));
 
             lsc++;
-            ls = (char*)realloc((void *)ls, (lsc + 1) * typesize);
+            ls = (char *)realloc((void *)ls, (lsc + 1) * typesize);
             assert(ls);
         }
         else if (relation == 2)
@@ -43,16 +43,16 @@ void *quicksort(void *base, size_t nelem, size_t typesize, int (*comparefn)(cons
             assert(memcpy((void *)(eq + eqc * typesize), elem, typesize));
 
             eqc++;
-            eq = (char*) realloc((void *)eq, (eqc+1) * typesize);
+            eq = (char *)realloc((void *)eq, (eqc + 1) * typesize);
             assert(eq);
         }
-        else 
+        else
         {
             assert(memcpy((void *)(gt + gtc * typesize), elem, typesize));
 
             gtc++;
 
-            gt = (char*)realloc((void *)gt, (gtc +1) * typesize);
+            gt = (char *)realloc((void *)gt, (gtc + 1) * typesize);
             assert(gt);
         }
     }
@@ -89,7 +89,6 @@ void *quicksort(void *base, size_t nelem, size_t typesize, int (*comparefn)(cons
 
     if (eq != NULL)
         free(eq);
-        
 
     return base;
 }
