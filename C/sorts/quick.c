@@ -67,17 +67,17 @@ void *quicksort(void *base, size_t nelem, size_t typesize, int (*comparefn)(cons
     int count = 0;
     for (int i = 0; i < lsc; ++i)
     {
-        memcpy((void *)(mem + count * typesize), (void *)(ls + i * typesize), typesize);
+        assert(memcpy((void *)(mem + count * typesize), (void *)(ls + i * typesize), typesize));
         count++;
     }
     for (int i = 0; i < eqc; ++i)
     {
-        memcpy((void *)(mem + count * typesize), (void *)(eq + i * typesize), typesize);
+        assert(memcpy((void *)(mem + count * typesize), (void *)(eq + i * typesize), typesize));
         count++;
     }
     for (int i = 0; i < gtc; ++i)
     {
-        memcpy((void *)(mem + count * typesize), (void *)(gt + i * typesize), typesize);
+        assert(memcpy((void *)(mem + count * typesize), (void *)(gt + i * typesize), typesize));
         count++;
     }
     if (ls != NULL)
