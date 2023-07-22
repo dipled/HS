@@ -20,17 +20,19 @@ int main()
     assert(memcpy((void *)vet2, (void *)vet, sizeof(int) * nelem));
     {
         assert(mergesort((void*)vet, nelem, sizeof(int), &intCmp)); 
-        printf("Quick-Sort: ");
+        printf("Merge-Sort: ");
         for (int i = 0; i < nelem; ++i)
             printf("%d ", vet[i]);
         printf("\n\n");
     }
     {
         assert(quicksort((void*)vet2, nelem, sizeof(int), &intCmp));
-        printf("Merge-Sort: ");
+        printf("Quick-Sort: ");
         for (int i = 0; i < nelem; ++i)
             printf("%d ", vet2[i]);
         printf("\n\n");
     }
+    if(vet2 != NULL)
+        free(vet2);
     return 0;
 }
