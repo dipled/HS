@@ -172,6 +172,9 @@ main =
         av <- getLine
         putStrLn "Qual o tipo de dado voce quer criar? (Int, Float, String)"
         r <- getLine
+        let a = []
+        let b = [1]
+        let a = b
         case (av, r) of
             ("Normal","Float") -> partida (Nil :: BinTree Float)
             ("Normal","Int") -> partida (Nil :: BinTree Integer)
